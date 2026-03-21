@@ -1,0 +1,42 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style pour la barre de navigation */
+nav {
+    background-color: #004aad;
+}
+
+.navbar-text {
+    color: #ffffff;
+}
+
+a.nav-link {
+    color: #ffffff;
+    text-align: center;
+}
+
+a.nav-link:hover {
+    text-decoration: underline;
+    color: #ffffff;
+}
+
+#navbarNav {
+    border-top: 1px solid #ffffff;
+}
+
+
+/* Style pour le contenu */
+#redirectionForm {
+    cursor: pointer;
+}
+
+/* Style pour le pied de page */
+footer.fixed-bottom {
+    height: auto;
+}
+
+/* Espace réservé sous le contenu pour ne pas être recouvert par le footer fixe */
+.container {
+    padding-bottom: 80px;
+}
