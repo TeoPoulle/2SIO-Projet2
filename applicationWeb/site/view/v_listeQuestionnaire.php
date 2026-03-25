@@ -2,7 +2,12 @@
     <div class="col-md-10 mx-auto">
         <h2 class="p-3 text-md-center">Questionnaires à compléter avant vos prochains rendez-vous</h2>
 
-        <?php if (empty($qListe)) : ?>
+        <?php if (isset($message)) : ?>
+            <div class="alert alert-info" role="alert">
+                <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+            </div>
+        <?php endif; 
+        if (empty($qListe)) : ?>
             <div class="alert alert-info" role="alert">
                 Aucun questionnaire à compléter pour le moment.
             </div>
@@ -21,8 +26,8 @@
                             <tbody>
                                 <?php foreach ($qListe as $questionnaire) : ?>
                                     <?php
-                                    $patient = $idPatient;
-                                    $urlRemplir = 'index.php?chx1=questionnaire&chx2=remplir&idPatient=' . $idPatient .
+                                    $patient = $idInclusion;
+                                    $urlRemplir = 'index.php?chx1=questionnaire&chx2=remplir&idInclusion=' . $idInclusion .
                                         '&idQuestionnaire=' . intval($questionnaire->getId()) .
                                         '&dateLimite=' . $questionnaire->getDateLimite();
                                     ?>

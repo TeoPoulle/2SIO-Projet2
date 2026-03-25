@@ -4,7 +4,7 @@ require_once 'model/c_optionDAO.php';
 require_once 'model/c_questionDAO.php';
 
 class QuestionController {
-    public function verificationReponses(int $idPatient): array {
+    public function verificationReponses(int $idInclusion): array {
         $optionDAO = new OptionDAO();
         $questionDAO = new QuestionDAO();
         $questionnaireDAO = new QuestionnaireDAO();
@@ -37,7 +37,7 @@ class QuestionController {
 
         $questionnaire = null;
         if ($idQuestionnaire > 0 && $dateLimite !== '') {
-            $questionnaire = $questionnaireDAO->getQuestionnaireById($idQuestionnaire, $idPatient, $dateLimite);
+            $questionnaire = $questionnaireDAO->getQuestionnaireById($idQuestionnaire, $idInclusion, $dateLimite);
         }
 
         return [

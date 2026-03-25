@@ -35,4 +35,17 @@ class OptionDAO {
     return $option;
   }
 
+  public function getOptionByLibelle($libelleOption) {
+    $pdo = Connexion::getConnexion();
+    $stmt = $pdo->prepare('SELECT id, libelleValeur FROM valeurreponse WHERE libelleValeur=:libelleOption');
+    $stmt->bindParam(':libelleOption', $libelleOption, PDO::PARAM_STR);
+    $stmt->execute();
+    $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+    return new Option(
+      $resultat['id'],
+      $resultat['libelleValeur']
+    );
+  }
+
+  
 }

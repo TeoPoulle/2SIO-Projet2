@@ -3,6 +3,7 @@
 require_once 'model/c_questionnaireDAO.php';
 require_once 'model/c_optionDAO.php';
 require_once 'controller/questionnaireController.php';
+require_once 'controller/reponseController.php';
 
 $action = $_GET['chx2'] ?? '';
 
@@ -19,9 +20,9 @@ switch ($action) {
       require 'view/v_listeQuestionnaire.php';
       exit;
     } */
-        $idPatient = 1;
+        $idInclusion = 1;
         $questionnaireDAO = new QuestionnaireDAO();
-        $qListe = $questionnaireDAO->getQuestionnairesACompleter($idPatient);
+        $qListe = $questionnaireDAO->getQuestionnairesACompleter($idInclusion);
         require 'view/v_listeQuestionnaire.php';
         include 'view/v_footer.php';
         break;
@@ -29,13 +30,13 @@ switch ($action) {
     case 'remplir':
         include 'view/v_header.php';
 
-        $idPatient = 1; /* Même supposition que pour au dessus, le patient authentifié est le 1 */
+        $idInclusion = 1; /* Même supposition que pour au dessus, le patient authentifiée est la 1 */
         $idQuestionnaire =  intval($_GET['idQuestionnaire']);
         $dateLimite = $_GET['dateLimite'];
         $questionnaireDAO = new QuestionnaireDAO();
         $optionDAO = new OptionDAO();
         $questions = $questionnaireDAO->getQuestionsDuQuestionnaire($idQuestionnaire);
-        $questionnaire = $questionnaireDAO->getQuestionnaireById($idQuestionnaire, $idPatient, $dateLimite);
+        $questionnaire = $questionnaireDAO->getQuestionnaireById($idQuestionnaire, $idInclusion, $dateLimite);
         $options = $optionDAO->getOptions();
 
         require 'view/v_formQuestionnaire.php';
@@ -44,15 +45,29 @@ switch ($action) {
 
     case 'verificationReponses':
         include 'view/v_header.php';
-        $idPatient = 1; /* Même supposition que pour au dessus, le patient authentifié est le 1 */
+        $idInclusion = 1; /* Même supposition que pour au dessus, le patient authentifiée est la 1 */
         $questionController = new QuestionController();
-        $donneesVerification = $questionController->verificationReponses($idPatient);
+        $donneesVerification = $questionController->verificationReponses($idInclusion);
         $reponses = $donneesVerification['reponses'];
         $questionnaire = $donneesVerification['questionnaire'];
         $idQuestionnaire = $donneesVerification['idQuestionnaire'];
         $dateLimite = $donneesVerification['dateLimite'];
         require 'view/v_verificationReponse.php';
         include 'view/v_footer.php';
+        break;
+
+    case 'envoieReponses':
+        $envReponse = unserialize($_POST['envReponse']);
+        $reponseController = new ReponseController();
+        $requete = $reponseController->envoieReponse($envReponse);
+        if ($requete[0] === 'success') {
+            $message = "Vos réponses ont été enregistrées avec succès.";
+        } else {
+            $message = "Une erreur est survenue lors de l'enregistrement de vos réponses. Veuillez réessayer.";
+        }
+        
+        header("Location: index.php?chx1=questionnaire&chx2=aCompleter");
+        exit;
         break;
 
     default:

@@ -6,10 +6,10 @@ require_once 'model/c_question.php';
 
 class QuestionnaireDAO {
 
-    public function getQuestionnairesACompleter(int $idPatient): array {
+    public function getQuestionnairesACompleter(int $idInclusion): array {
         $pdo = Connexion::getConnexion();
-        $stmt = $pdo->prepare('CALL QuestionnaireACompleter(:idPatient)');
-        $stmt->bindParam(':idPatient', $idPatient, PDO::PARAM_INT);
+        $stmt = $pdo->prepare('CALL QuestionnaireACompleter(:idInclusion)');
+        $stmt->bindParam(':idInclusion', $idInclusion, PDO::PARAM_INT);
         $stmt->execute();
         $resultats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -51,11 +51,11 @@ class QuestionnaireDAO {
         return $questions;
     }
 
-    public function getQuestionnaireById(int $idQuestionnaire, int $idPatient, string $dateLimite): Questionnaire{
+    public function getQuestionnaireById(int $idQuestionnaire, int $idInclusion, string $dateLimite): Questionnaire{
         $pdo = Connexion::getConnexion();
-        $stmt = $pdo->prepare('CALL QuestionnaireById(:idQuestionnaire, :idPatient, :dateLimite)');
+        $stmt = $pdo->prepare('CALL QuestionnaireById(:idQuestionnaire, :idInclusion, :dateLimite)');
         $stmt->bindParam(':idQuestionnaire', $idQuestionnaire, PDO::PARAM_INT);
-        $stmt->bindParam(':idPatient', $idPatient, PDO::PARAM_INT);
+        $stmt->bindParam(':idInclusion', $idInclusion, PDO::PARAM_INT);
         $stmt->bindParam(':dateLimite', $dateLimite, PDO::PARAM_STR);
         $stmt->execute();
         $resultat = $stmt->fetch(PDO::FETCH_ASSOC);

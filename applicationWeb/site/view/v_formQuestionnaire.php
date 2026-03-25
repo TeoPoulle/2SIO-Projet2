@@ -1,7 +1,7 @@
 <article class="row">
     <div class="col-md-10 mx-auto">
         <h2 class="p-3 text-md-center">Questionnaire</h2>
-        <a class="btn btn-outline-primary" href="index.php?chx1=questionnaire&amp;chx2=aCompleter&amp;idPatient=<?= $idPatient ?>">Retour à la liste de(s) questionnaire(s)</a>
+        <a class="btn btn-outline-primary" href="index.php?chx1=questionnaire&amp;chx2=aCompleter&amp;idInclusion=<?= $idInclusion ?>">Retour à la liste de(s) questionnaire(s)</a>
         <br><br>
 
         <?php if (empty($questions)) : ?>
@@ -15,7 +15,7 @@
                         <h4 class="col-4 text-md-start">Questionnaire <?= htmlspecialchars($questionnaire->getLibelleQuestionnaire(), ENT_QUOTES, 'UTF-8') ?></h4>
                         <h6 class="col-4 align-center text-md-end offset-4">Date limite : <?= htmlspecialchars($questionnaire->getDateLimite(), ENT_QUOTES, 'UTF-8') ?></h6>
                     </div>
-                    <form method="post" action="index.php?chx1=questionnaire&chx2=verificationReponses&idPatient=<?= $idPatient ?>&idQuestionnaire=<?= intval($questionnaire->getId()) ?>&dateLimite=<?= $questionnaire->getDateLimite() ?>">
+                    <form method="post" action="index.php?chx1=questionnaire&chx2=verificationReponses&idInclusion=<?= $idInclusion ?>&idQuestionnaire=<?= intval($questionnaire->getId()) ?>&dateLimite=<?= $questionnaire->getDateLimite() ?>">
                         <?php $themeActuel = ""; ?>
                         <table class="table align-middle">
                             <?php foreach ($questions as $question) :
@@ -24,6 +24,7 @@
                                 $numQuestion = intval($question->getNumQuestion());
                                 $idQuestion = intval($question->getId());
                                 $libelleQuestion = $question->getLibelleQuestion();
+
                                 if ($themeActuel !== $libelleTheme) : ?>
                                     <thead class="table-light">
                                         <tr class="row">
@@ -34,26 +35,26 @@
                                 <?php endif; ?>
 
                                 <tbody class="row">
-                                    <td class="col-md-4 text-md-start">
+                                    <td class="col-4">
                                         <label>
                                             <?= htmlspecialchars($numQuestion . '. ' . $libelleQuestion, ENT_QUOTES, 'UTF-8') ?>
                                         </label>
                                     </td>
-                                    <?php
-                                    foreach ($options as $option) : ?>
-                                        <td class="text-end">
+                                    <td class="col-6 offset-2 text-md-end">
+                                        <?php foreach ($options as $option) : ?>
                                             <input type="radio" name="reponse_<?= $numQuestion ?>_theme_<?= $idTheme ?>" value="<?= htmlspecialchars($option->getId(), ENT_QUOTES, 'UTF-8') ?>" required>
-                                            <label><?= htmlspecialchars($option->getLibelleOption(), ENT_QUOTES, 'UTF-8') ?></label>
-                                        </td>
-                                    <?php endforeach; ?>
+                                            <label class="me-3"><?= htmlspecialchars($option->getLibelleOption(), ENT_QUOTES, 'UTF-8') ?></label>
+                                        <?php endforeach; ?>
+                                    </td>
                                 </tbody>
                             <?php endforeach; ?>
                         </table>
                         <div class="text-md-center">
-                            <button type="submit" class="btn btn-primary">Confirmer mes réponses </button>
+                            <button type="submit" class="btn btn-primary">Valider mes réponses </button>
                         </div>
                         <input type="hidden" name="idQuestionnaire" value="<?= intval($questionnaire->getId()) ?>">
                         <input type="hidden" name="dateLimite" value="<?= htmlspecialchars($questionnaire->getDateLimite(), ENT_QUOTES, 'UTF-8') ?>">
+                        <input type="hidden" name="idInclusion" value="<?= $idInclusion ?>">
                     </form>
                 <?php endif; ?>
                 </div>
