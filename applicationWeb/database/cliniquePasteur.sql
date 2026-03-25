@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 -- Base de données : `cliniquepasteur`
 --
 
-USE SIO2-projet2 ;
+--USE `grp03ClinPasteur` ;
+USE `SIO2-projet2`;
 
 -- --------------------------------------------------------
 
@@ -316,9 +317,10 @@ CREATE TABLE IF NOT EXISTS `reponse` (
   `numQuestion` int NOT NULL,
   `idInclusion` int NOT NULL,
   `dateReponse` date,
+  `dateConsult` date,
   PRIMARY KEY (`id`),
   KEY `idInclusion` (`idInclusion`),
-  UNIQUE KEY `idx_reponse_patient` (`numQuestion`, `idInclusion`)
+  UNIQUE KEY `idx_reponse_patient` (`numQuestion`, `idInclusion`, `dateConsult`)
 ) ENGINE=InnoDB  AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -------------------------------------------------------
@@ -370,6 +372,25 @@ CREATE TABLE IF NOT EXISTS `valeurreponse` (
   `libelleValeur` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -------------------------------------------------------
+
+--
+-- Structure de la table `tracabilite`
+--
+
+DROP TABLE IF EXISTS `tracabilite`;
+CREATE TABLE `tracabilite` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `table_modifiee` varchar(100) NOT NULL,
+  `action` enum('INSERT','UPDATE','DELETE') NOT NULL,
+  `date_heure` datetime NOT NULL DEFAULT current_timestamp(),
+  `id_enregistrement` int(11) DEFAULT NULL,
+  `ancienne_valeur` text DEFAULT NULL,
+  `nouvelle_valeur` text DEFAULT NULL,
+  `utilisateur_pseudo` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 COMMIT;
