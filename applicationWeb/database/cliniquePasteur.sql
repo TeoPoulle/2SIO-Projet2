@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 --
 
 --USE `grp03ClinPasteur` ;
-USE `SIO2-projet2`;
+USE `2SIO-Projet2`;
 
 -- --------------------------------------------------------
 
