@@ -1,5 +1,5 @@
 --USE `grp03ClinPasteur` ;
-USE `SIO2-projet2`;
+USE `2SIO-Projet2`;
 
 --
 -- Déchargement des données de la table `etatinclusion`
